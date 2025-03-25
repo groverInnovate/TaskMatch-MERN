@@ -12,7 +12,7 @@ const HomePage = () => {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const token = localStorage.getItem('token');  // Get the token
+        const token = localStorage.getItem('token');  
         if (!token) {
           throw new Error('No token found. Please log in.');
         }
@@ -23,7 +23,7 @@ const HomePage = () => {
 
         setTasks(response.data);
       } catch (err) {
-        console.error('API Error:', err);  // Log the full error in console
+        console.error('API Error:', err);  
         setError(err.response ? err.response.data : err.message);
       } finally {
         setLoading(false);

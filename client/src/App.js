@@ -5,7 +5,7 @@ import CreateTask from './pages/CreateTask';
 import TaskPage from './pages/TaskPage';
 import NotFound from './pages/NotFound';
 import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage';  // Register route
+import RegisterPage from './pages/RegisterPage';
 import { isAuthenticated } from './services/authService';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -18,9 +18,11 @@ const App = () => {
         <Navbar />
         <main className="main-content">
           <Routes>
-            <Route path="/" element={isAuthenticated() ? <HomePage /> : <Navigate to="/login" />} />
+            
+            <Route path="/" element={<Navigate to={isAuthenticated() ? "/home" : "/login"} />} />
             <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />   {/* Register route */}
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/home" element={isAuthenticated() ? <HomePage /> : <Navigate to="/login" />} />
             <Route path="/create" element={isAuthenticated() ? <CreateTask /> : <Navigate to="/login" />} />
             <Route path="/tasks/:id" element={isAuthenticated() ? <TaskPage /> : <Navigate to="/login" />} />
             <Route path="*" element={<NotFound />} />
@@ -33,6 +35,8 @@ const App = () => {
 };
 
 export default App;
+
+
 
 
 

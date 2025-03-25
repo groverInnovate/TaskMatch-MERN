@@ -23,7 +23,7 @@ const CreateTask = () => {
       const response = await axios.post('http://localhost:5003/api/tasks', taskData);
       console.log(response.data);
       alert('Task created successfully!');
-      navigate('/');  // Redirect to home page after creating task
+      navigate('/');  
     } catch (error) {
       console.error('Error creating task:', error);
       alert('Failed to create task');

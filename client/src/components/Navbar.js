@@ -1,22 +1,40 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import './Navbar.css';  // Import the CSS for styling
+import { Link, useNavigate } from 'react-router-dom';
+import { isAuthenticated, logout } from '../services/authService';
+import './Navbar.css';  
 
 const Navbar = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
+
   return (
     <nav className="navbar">
       <div className="navbar-container">
-        <Link to="/" className="navbar-logo">TaskMatch</Link>
-        <ul className="navbar-links">
-          <li><Link to="/">Home</Link></li>
-          <li><Link to="/create">Create Task</Link></li>
-          <li><Link to="/profile">Profile</Link></li>
-          <li><Link to="/logout">Logout</Link></li>
-        </ul>
+        <Link to="/" className="navbar-brand">TaskMatch</Link>
+        <div className="navbar-buttons">
+          {isAuthenticated() ? (
+            <>
+              <Link to="/home" className="btn">Home</Link>
+              <Link to="/create" className="btn">Create Task</Link>
+              <button onClick={handleLogout} className="btn logout-btn">Logout</button>
+            </>
+          ) : (
+            <>
+              <Link to="/login" className="btn">Login</Link>
+              <Link to="/register" className="btn">Register</Link>
+            </>
+          )}
+        </div>
       </div>
     </nav>
   );
 };
 
 export default Navbar;
+
+
 
