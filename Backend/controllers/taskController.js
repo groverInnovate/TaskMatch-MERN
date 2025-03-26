@@ -12,33 +12,36 @@ export const getTasks = async (req, res) => {
 };
 
 export const createTask = async (req, res) => {
-  console.log(" Received Request Body:", req.body);  
+  console.log("Received Request Body:", req.body);
 
   try {
-    const { title, description, deadline, price } = req.body;
+      const { title, description, deadline, price } = req.body;
 
-    
-    if (!title || !description || !deadline || !price) {
-      console.log(" Missing fields:", { title, description, deadline, price });
-      return res.status(400).json({ error: "All fields are required" });
-    }
+      if (!title || !description || !deadline || !price) {
+          console.log("Missing fields:", { title, description, deadline, price });
+          return res.status(400).json({ error: "All fields are required" });
+      }
 
-    const newTask = new Task({
-      title,
-      description,
-      deadline,
-      price,
-    });
+      // Use the user ID from the token
+      const newTask = new Task({
+          title,
+          description,
+          deadline,
+          price,
+          createdBy: req.user  // Add the authenticated user's ID
+      });
 
-    const savedTask = await newTask.save();
-    console.log(" Task saved successfully:", savedTask);  
+      const savedTask = await newTask.save();
+      console.log("Task saved successfully:", savedTask);
 
-    res.status(201).json(savedTask);
+      res.status(201).json(savedTask);
   } catch (error) {
-    console.error("🚨 Error saving task:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+      console.error("🚨 Error saving task:", error);
+      res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+
 
 export const getTaskById = async (req, res) => {
   try {

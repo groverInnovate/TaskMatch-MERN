@@ -16,19 +16,41 @@ const CreateTask = () => {
     const { name, value } = e.target;
     setTaskData({ ...taskData, [name]: value });
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
+  
+    const token = localStorage.getItem('token');  // Retrieve token from localStorage
+  
+    if (!token) {
+      alert('You are not authorized. Please log in.');
+      navigate('/login');
+      return;
+    }
+  
     try {
-      const response = await axios.post('http://localhost:5003/api/tasks', taskData);
+      const response = await axios.post('http://localhost:5003/api/tasks', taskData, {
+        headers: {
+          'Authorization': `Bearer ${token}`,    // Add the token to the request header
+          'Content-Type': 'application/json'
+        }
+      });
+  
       console.log(response.data);
       alert('Task created successfully!');
-      navigate('/');  
+      navigate('/home');  // Redirect to home page after creating task
+  
     } catch (error) {
       console.error('Error creating task:', error);
-      alert('Failed to create task');
+  
+      if (error.response && error.response.status === 401) {
+        alert('Unauthorized. Please log in again.');
+        navigate('/login');
+      } else {
+        alert('Failed to create task');
+      }
     }
   };
+  
 
   return (
     <div className="min-h-screen flex justify-center items-center bg-gray-100">

@@ -1,40 +1,37 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
+import LandingPage from './pages/LandingPage';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
 import HomePage from './pages/HomePage';
 import CreateTask from './pages/CreateTask';
 import TaskPage from './pages/TaskPage';
 import NotFound from './pages/NotFound';
-import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage';
-import { isAuthenticated } from './services/authService';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
+import PrivateRoute from './components/PrivateRoute';
 import './App.css';
 
 const App = () => {
   return (
-    <Router>
-      <div className="app">
-        <Navbar />
-        <main className="main-content">
-          <Routes>
-            
-            <Route path="/" element={<Navigate to={isAuthenticated() ? "/home" : "/login"} />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="/home" element={isAuthenticated() ? <HomePage /> : <Navigate to="/login" />} />
-            <Route path="/create" element={isAuthenticated() ? <CreateTask /> : <Navigate to="/login" />} />
-            <Route path="/tasks/:id" element={isAuthenticated() ? <TaskPage /> : <Navigate to="/login" />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </main>
-        <Footer />
-      </div>
-    </Router>
+    <div className="App">
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/home" element={<PrivateRoute><HomePage /></PrivateRoute>} />
+        <Route path="/create-task" element={<PrivateRoute><CreateTask /></PrivateRoute>} />
+        <Route path="/task/:id" element={<PrivateRoute><TaskPage /></PrivateRoute>} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </div>
   );
 };
 
 export default App;
+
+
+
+
+
 
 
 

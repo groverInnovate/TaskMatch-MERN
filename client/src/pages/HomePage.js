@@ -43,7 +43,7 @@ const HomePage = () => {
         localStorage.removeItem('token');
         navigate('/');
       }} className="logout-btn">Logout</button>
-      <Link to="/create">Create New Task</Link>
+      <Link to="/create-task">Create New Task</Link>
       <div className="task-list">
         {tasks.map(task => (
           <div key={task._id} className="task-card">

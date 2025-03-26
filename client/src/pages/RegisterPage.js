@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useAuth } from '../context/AuthContext';
 import './RegisterPage.css';  
 
 const RegisterPage = () => {
@@ -9,8 +10,10 @@ const RegisterPage = () => {
     email: '',
     password: ''
   });
-  const [error, setError] = useState('');
+
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const { login } = useAuth();  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -20,12 +23,24 @@ const RegisterPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/register', formData);
-      alert('Registration successful!');
-      navigate('/login');  
+      const response = await axios.post('http://localhost:5003/api/auth/register', formData);
+
+      if (response.status === 201 || response.status === 200) {
+        console.log('Registration successful:', response.data);
+        navigate('/login');  // ✅ Redirect to login page after registration
+      } else {
+        setError(response.data?.message || "Registration failed. Please try again.");
+      }
+
     } catch (error) {
-      console.error('Registration failed:', error.response?.data?.message || error.message);
-      setError(error.response?.data?.message || 'Registration failed. Please try again.');
+      console.error('Registration failed:', error);
+
+      // Properly handle Axios errors
+      if (error.response && error.response.data) {
+        setError(error.response.data.message || 'Registration failed.');
+      } else {
+        setError('An unexpected error occurred.');
+      }
     }
   };
 
@@ -45,9 +60,11 @@ const RegisterPage = () => {
         <button type="submit">Register</button>
       </form>
 
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {/* Display error properly */}
+      {error && <p style={{ color: 'red' }}>{typeof error === 'string' ? error : JSON.stringify(error)}</p>}
     </div>
   );
 };
 
 export default RegisterPage;
+
