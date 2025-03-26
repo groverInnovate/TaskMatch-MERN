@@ -20,8 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 
 const allowedOrigins = [
   'https://taskmatch-front.vercel.app',    
-  'http://localhost:3000',
-   'https://taskmatch-front.vercel.app/api'          
+  'https://taskmatch-back.onrender.com'          
 ];
 
 app.use(cors({
