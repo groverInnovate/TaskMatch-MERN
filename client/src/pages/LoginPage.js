@@ -11,7 +11,7 @@ const LoginPage = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch("http://localhost:5003/api/auth/login", {
+      const response = await fetch("https://taskmatch-back.onrender.com/api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -28,8 +28,8 @@ const LoginPage = () => {
       const data = await response.json();
       const { token } = data;
 
-      login(token); // Store token
-      navigate('/home');  // Redirect to home
+      login(token); 
+      navigate('/home');  
     } catch (error) {
       console.error("Login error:", error);
     }

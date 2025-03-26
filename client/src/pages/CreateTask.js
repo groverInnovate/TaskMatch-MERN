@@ -19,7 +19,7 @@ const CreateTask = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
   
-    const token = localStorage.getItem('token');  // Retrieve token from localStorage
+    const token = localStorage.getItem('token');  
   
     if (!token) {
       alert('You are not authorized. Please log in.');
@@ -28,16 +28,16 @@ const CreateTask = () => {
     }
   
     try {
-      const response = await axios.post('http://localhost:5003/api/tasks', taskData, {
+      const response = await axios.post('https://taskmatch-back.onrender.com/api/tasks', taskData, {
         headers: {
-          'Authorization': `Bearer ${token}`,    // Add the token to the request header
+          'Authorization': `Bearer ${token}`,    
           'Content-Type': 'application/json'
         }
       });
   
       console.log(response.data);
       alert('Task created successfully!');
-      navigate('/home');  // Redirect to home page after creating task
+      navigate('/home');  
   
     } catch (error) {
       console.error('Error creating task:', error);

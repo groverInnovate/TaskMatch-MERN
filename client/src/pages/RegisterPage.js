@@ -23,11 +23,11 @@ const RegisterPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5003/api/auth/register', formData);
+      const response = await axios.post('https://taskmatch-back.onrender.com/api/auth/register', formData);
 
       if (response.status === 201 || response.status === 200) {
         console.log('Registration successful:', response.data);
-        navigate('/login');  // ✅ Redirect to login page after registration
+        navigate('/login');  
       } else {
         setError(response.data?.message || "Registration failed. Please try again.");
       }
@@ -35,7 +35,7 @@ const RegisterPage = () => {
     } catch (error) {
       console.error('Registration failed:', error);
 
-      // Properly handle Axios errors
+      
       if (error.response && error.response.data) {
         setError(error.response.data.message || 'Registration failed.');
       } else {
@@ -60,7 +60,7 @@ const RegisterPage = () => {
         <button type="submit">Register</button>
       </form>
 
-      {/* Display error properly */}
+     
       {error && <p style={{ color: 'red' }}>{typeof error === 'string' ? error : JSON.stringify(error)}</p>}
     </div>
   );

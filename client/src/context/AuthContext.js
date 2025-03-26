@@ -13,7 +13,7 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem("token"));
 
-  // Auto-login on page reload
+  
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
