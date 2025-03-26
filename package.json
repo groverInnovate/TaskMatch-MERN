@@ -1,0 +1,14 @@
+{
+    "name": "taskmatch-fullstack",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+      "install": "npm install --prefix Backend && npm install --prefix client",
+      "start": "node Backend/server.js",
+      "client": "npm start --prefix client",
+      "server": "node Backend/server.js",
+      "build": "npm run build --prefix client",
+      "dev": "concurrently \"npm run server\" \"npm run client\""
+    }
+  }
+  
