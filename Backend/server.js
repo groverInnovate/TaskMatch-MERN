@@ -18,8 +18,14 @@ const mongoURI = process.env.MONGO_URI || "your-mongodb-uri";
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+const allowedOrigins = [
+  'https://taskmatch-front.vercel.app',    
+  'http://localhost:3000'                   
+];
+
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: allowedOrigins,
+  credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
